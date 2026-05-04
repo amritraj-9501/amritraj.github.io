@@ -9,7 +9,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
 html { scroll-behavior: smooth; }
 
 /* Typography */
@@ -17,12 +17,14 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; }
 h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 1rem; }
 h2 { font-size: 2.5rem; margin-bottom: 2rem; }
 .highlight { color: var(--accent-color); font-style: italic; }
-.eyebrow { color: var(--accent-color); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+.eyebrow { color: var(--accent-color); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; display: block; }
 
-/* Navigation */
-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 5%; border-bottom: 1px solid #222; position: sticky; top: 0; background: var(--bg-color); z-index: 100; }
-.logo { font-size: 1rem; font-weight: 600; }
-.logo span { color: var(--text-secondary); font-weight: 300; font-size: 0.8rem; }
+/* Navigation & Premium Logo */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); z-index: 100; }
+.logo-container { display: flex; align-items: center; gap: 0.8rem; }
+.logo-box { border: 1px solid var(--accent-color); color: var(--accent-color); font-family: var(--font-heading); font-size: 1.3rem; font-weight: 600; padding: 0.4rem 0.5rem; line-height: 1; }
+.logo-text { color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 1.5px; font-weight: 300; }
+
 .nav-links { list-style: none; display: flex; gap: 2rem; }
 .nav-links a { color: var(--text-primary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent-color); }
@@ -30,42 +32,137 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 /* Buttons */
 .btn-primary { background: var(--accent-color); color: #000; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: 600; border-radius: 2px; display: inline-block; transition: opacity 0.3s; }
 .btn-primary:hover { opacity: 0.9; }
-.btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid #333; padding: 0.8rem 1.5rem; text-decoration: none; display: inline-block; margin-left: 1rem; transition: border 0.3s; }
+.btn-secondary { background: rgba(0,0,0,0.5); color: var(--text-primary); border: 1px solid #555; padding: 0.8rem 1.5rem; text-decoration: none; display: inline-block; margin-left: 1rem; transition: border 0.3s; backdrop-filter: blur(5px); }
 .btn-secondary:hover { border-color: var(--accent-color); }
 .btn-outline { border: 1px solid #333; color: var(--text-primary); padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; transition: all 0.3s; }
 .btn-outline:hover { border-color: var(--accent-color); }
 
-/* Hero Section */
-.hero { display: flex; justify-content: space-between; padding: 6rem 5%; gap: 4rem; align-items: center; }
-.hero-content { flex: 1; max-width: 650px; }
-.hero-desc { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; }
-.hero-card { background: var(--surface-color); padding: 3rem; border-left: 3px solid var(--accent-color); flex: 0.8; height: fit-content; }
-.hero-card .card-title { color: var(--accent-color); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 1rem; }
-.hero-card h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+/* Hero Section with Bridge Background */
+.hero { 
+    position: relative;
+    display: flex; 
+    justify-content: space-between; 
+    padding: 8rem 5% 6rem 5%; 
+    gap: 4rem; 
+    align-items: center; 
+    /* Linear gradient darkens the left side for text readability, leaves right side slightly more visible */
+    background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.2) 100%), url('hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #222;
+}
+.hero-content { flex: 1; max-width: 650px; position: relative; z-index: 2; }
+.hero-desc { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; }
+.hero-card { background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(10px); padding: 3rem; border-left: 3px solid var(--accent-color); flex: 0.8; height: fit-content; position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.hero-card .card-title { color: var(--accent-color); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 1rem; text-transform: uppercase; }
+.hero-card h3 { font-size: 1.8rem; margin-bottom: 1rem; line-height: 1.3; }
 .hero-card .location { color: var(--text-secondary); font-size: 0.9rem; }
 
+/* Market Positioning Styling */
+.market-positioning { display: flex; align-items: stretch; padding: 0; background-color: var(--surface-color); border-bottom: 1px solid #222; overflow: hidden; }
+.pos-image { flex: 1; min-height: 500px; max-width: 50%; display: flex; }
+.pos-image img { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; filter: brightness(0.8) contrast(1.1); }
+.pos-content { flex: 1; padding: 5rem; display: flex; flex-direction: column; justify-content: center; max-width: 50%; }
+.pos-content h2 { font-size: 2.8rem; line-height: 1.2; margin-top: 0.5rem; }
+.pos-desc { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.8; }
+
+/* The Tags */
+.market-tags { display: flex; flex-wrap: wrap; gap: 1rem; }
+.market-tags .tag { color: var(--accent-color); font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; background: #000000; border: 1px solid #d4af3733; padding: 0.6rem 1.2rem; border-radius: 2px; transition: background 0.3s ease; }
+.market-tags .tag:hover { background: #d4af3711; border-color: var(--accent-color); }
+
 /* Impact Section */
-.impact { padding: 5rem 5%; background: var(--surface-color); }
+.impact { padding: 6rem 5%; background: var(--bg-color); }
 .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
 .impact-item { padding: 2rem; border-bottom: 2px solid #333; transition: border-color 0.3s; }
 .impact-item:hover { border-bottom-color: var(--accent-color); }
 .impact-item h3 { font-size: 3rem; color: var(--accent-color); margin-bottom: 0.5rem; }
 .impact-item p { color: var(--text-secondary); font-size: 0.9rem; }
 
-/* NEW: Executive Recognition Section */
+/* Executive Recognition Section */
 .recognition { padding: 5rem 5%; background: linear-gradient(145deg, #111 0%, #0a0a0a 100%); border-top: 1px solid #222; border-bottom: 1px solid #222; display: flex; justify-content: center; }
-.recognition-content { max-width: 800px; text-align: center; padding: 3rem; border: 1px solid #333; border-radius: 4px; background: rgba(22, 22, 22, 0.5); }
+.recognition-content { max-width: 800px; text-align: center; padding: 4rem 3rem; border: 1px solid #333; border-radius: 4px; background: rgba(22, 22, 22, 0.5); }
 .recognition-content h2 { font-size: 2.2rem; color: var(--accent-color); margin-bottom: 0.5rem; font-style: italic; line-height: 1.3; }
-.rec-context { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; letter-spacing: 0.5px; }
+.rec-context { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; letter-spacing: 0.5px; text-transform: uppercase; }
 .rec-desc { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2.5rem; line-height: 1.8; }
 
 /* Testimonials */
-.testimonials { padding: 5rem 5%; }
+.testimonials { padding: 5rem 5%; background: var(--bg-color); }
 .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
 .test-card { background: var(--surface-color); padding: 2.5rem; border-radius: 4px; border: 1px solid #222; transition: transform 0.3s ease; }
 .test-card:hover { transform: translateY(-5px); border-color: #333; }
 .quote { font-style: italic; color: var(--text-primary); margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.1rem; }
 .author { color: var(--accent-color); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
 
+/* Contact / Let's Talk Section */
+.contact { padding: 6rem 5%; background: var(--surface-color); border-top: 1px solid #222; }
+.contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1200px; margin: 0 auto; }
+.contact-info h2 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1.5rem; }
+.contact-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.6; max-width: 90%; }
+
+.contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+.contact-box { display: flex; align-items: center; gap: 1rem; padding: 1.2rem; background: var(--bg-color); border: 1px solid #222; color: var(--text-primary); text-decoration: none; font-size: 0.9rem; border-radius: 2px; transition: border-color 0.3s; }
+.contact-box:hover { border-color: var(--accent-color); }
+.contact-box svg { color: var(--text-secondary); }
+
+.contact-form-container { background: var(--bg-color); padding: 3rem; border: 1px solid #222; border-radius: 4px; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: #fff; }
+.contact-form input, .contact-form textarea { width: 100%; background: var(--surface-color); border: 1px solid #333; padding: 1rem; color: #fff; font-family: var(--font-body); border-radius: 2px; transition: border-color 0.3s; }
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent-color); }
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.btn-submit { width: 100%; background: var(--accent-color); color: #000; border: none; padding: 1rem; font-size: 1rem; font-weight: 600; font-family: var(--font-body); cursor: pointer; border-radius: 2px; transition: opacity 0.3s; margin-top: 1rem; }
+.btn-submit:hover { opacity: 0.9; }
+
 /* Footer */
-footer { text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid #222; font-size: 0.8rem; }
+footer { text-align: center; padding: 2rem; background: var(--bg-color); color: var(--text-secondary); border-top: 1px solid #222; font-size: 0.8rem; }
+
+/* =========================================
+   MOBILE RESPONSIVENESS (AUTO-FIT)
+   ========================================= */
+@media (max-width: 1024px) {
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.2rem; }
+    .hero { padding: 6rem 5% 4rem 5%; gap: 2rem; }
+}
+
+@media (max-width: 992px) {
+    /* Nav */
+    .nav-links { display: none; /* Can be replaced with a hamburger menu later if desired */ }
+    .logo-text { display: none; }
+    
+    /* Hero */
+    .hero { 
+        flex-direction: column; 
+        text-align: left; 
+        padding: 5rem 5%;
+        /* Darker overlay on mobile since text sits on top of the whole image */
+        background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)), url('hero-bg.jpg');
+    }
+    .hero-content, .hero-card { max-width: 100%; width: 100%; }
+    .hero-card { margin-top: 2rem; border-left: none; border-top: 3px solid var(--accent-color); padding: 2rem; }
+    .hero-actions { display: flex; flex-direction: column; gap: 1rem; }
+    .btn-secondary { margin-left: 0; text-align: center; }
+    .btn-primary { text-align: center; }
+
+    /* Market Positioning */
+    .market-positioning { flex-direction: column-reverse; } 
+    .pos-image, .pos-content { max-width: 100%; } 
+    .pos-content { padding: 3rem 5%; }
+    
+    /* Recognition */
+    .recognition-content { padding: 3rem 2rem; }
+    
+    /* Contact */
+    .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-info h2 { font-size: 2.5rem; }
+    .contact-form-container { padding: 2rem; }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 2.8rem; }
+    h2 { font-size: 1.8rem; }
+    .hero-card h3 { font-size: 1.4rem; }
+    .impact-item h3 { font-size: 2.5rem; }
+}
