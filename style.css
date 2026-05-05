@@ -45,7 +45,6 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
     padding: 8rem 5% 6rem 5%; 
     gap: 4rem; 
     align-items: center; 
-    /* Linear gradient darkens the left side for text readability, leaves right side slightly more visible */
     background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.2) 100%), url('hero-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -115,6 +114,11 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .btn-submit { width: 100%; background: var(--accent-color); color: #000; border: none; padding: 1rem; font-size: 1rem; font-weight: 600; font-family: var(--font-body); cursor: pointer; border-radius: 2px; transition: opacity 0.3s; margin-top: 1rem; }
 .btn-submit:hover { opacity: 0.9; }
 
+/* NEW: Social Actions below form */
+.social-actions { display: flex; justify-content: center; gap: 2rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #333; }
+.social-icon { color: var(--text-secondary); transition: color 0.3s ease, transform 0.3s ease; display: flex; align-items: center; justify-content: center; }
+.social-icon:hover { color: var(--accent-color); transform: translateY(-3px); }
+
 /* Footer */
 footer { text-align: center; padding: 2rem; background: var(--bg-color); color: var(--text-secondary); border-top: 1px solid #222; font-size: 0.8rem; }
 
@@ -129,7 +133,7 @@ footer { text-align: center; padding: 2rem; background: var(--bg-color); color: 
 
 @media (max-width: 992px) {
     /* Nav */
-    .nav-links { display: none; /* Can be replaced with a hamburger menu later if desired */ }
+    .nav-links { display: none; }
     .logo-text { display: none; }
     
     /* Hero */
@@ -137,7 +141,6 @@ footer { text-align: center; padding: 2rem; background: var(--bg-color); color: 
         flex-direction: column; 
         text-align: left; 
         padding: 5rem 5%;
-        /* Darker overlay on mobile since text sits on top of the whole image */
         background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)), url('hero-bg.jpg');
     }
     .hero-content, .hero-card { max-width: 100%; width: 100%; }
