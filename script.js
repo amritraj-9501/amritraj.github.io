@@ -1,172 +1,83 @@
-:root {
-    --bg-color: #0a0a0a;
-    --surface-color: #161616;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent-color: #d4af37; /* Elegant Gold */
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Inter', sans-serif;
-}
+// 1. Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if(targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
-html { scroll-behavior: smooth; }
+// 2. Premium UX: Dynamic Number Counter Animation
+const counters = document.querySelectorAll('.counter');
+const speed = 100; // Animation speed (lower is faster)
 
-/* Typography */
-h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; }
-h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 1rem; }
-h2 { font-size: 2.5rem; margin-bottom: 2rem; }
-.highlight { color: var(--accent-color); font-style: italic; }
-.eyebrow { color: var(--accent-color); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+// Function to animate the numbers
+const animateCounters = () => {
+    counters.forEach(counter => {
+        // Store the original text (e.g., "1000+", "100%")
+        const originalText = counter.innerText;
+        // Extract just the number from the text
+        const targetNumber = parseInt(originalText.replace(/\D/g, '')); 
+        
+        // Temporarily set the display to 0 but keep the symbol
+        if(originalText.includes('+')) {
+            counter.innerText = '0+';
+        } else if (originalText.includes('%')) {
+            counter.innerText = '0%';
+        } else {
+            counter.innerText = '0';
+        }
 
-/* Navigation & Premium Logo */
-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); z-index: 100; }
-.logo-container { display: flex; align-items: center; gap: 0.8rem; }
-.logo-box { border: 1px solid var(--accent-color); color: var(--accent-color); font-family: var(--font-heading); font-size: 1.3rem; font-weight: 600; padding: 0.4rem 0.5rem; line-height: 1; }
-.logo-text { color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 1.5px; font-weight: 300; }
+        let currentCount = 0;
+        const increment = targetNumber / speed;
 
-.nav-links { list-style: none; display: flex; gap: 2rem; }
-.nav-links a { color: var(--text-primary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-.nav-links a:hover { color: var(--accent-color); }
+        const updateCount = () => {
+            currentCount += increment;
+            
+            if (currentCount < targetNumber) {
+                // Keep updating the number and add the symbol back
+                if(originalText.includes('+')) {
+                    counter.innerText = Math.ceil(currentCount) + '+';
+                } else if (originalText.includes('%')) {
+                    counter.innerText = Math.ceil(currentCount) + '%';
+                } else {
+                    counter.innerText = Math.ceil(currentCount);
+                }
+                // Call the function again smoothly
+                requestAnimationFrame(updateCount);
+            } else {
+                // Ensure it finishes exactly on the target text
+                counter.innerText = originalText;
+            }
+        };
 
-/* Buttons */
-.btn-primary { background: var(--accent-color); color: #000; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: 600; border-radius: 2px; display: inline-block; transition: opacity 0.3s; }
-.btn-primary:hover { opacity: 0.9; }
-.btn-secondary { background: rgba(0,0,0,0.5); color: var(--text-primary); border: 1px solid #555; padding: 0.8rem 1.5rem; text-decoration: none; display: inline-block; margin-left: 1rem; transition: border 0.3s; backdrop-filter: blur(5px); }
-.btn-secondary:hover { border-color: var(--accent-color); }
-.btn-outline { border: 1px solid #333; color: var(--text-primary); padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; transition: all 0.3s; }
-.btn-outline:hover { border-color: var(--accent-color); }
+        updateCount();
+    });
+};
 
-/* Hero Section with Bridge Background */
-.hero { 
-    position: relative;
-    display: flex; 
-    justify-content: space-between; 
-    padding: 8rem 5% 6rem 5%; 
-    gap: 4rem; 
-    align-items: center; 
-    background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.2) 100%), url('hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-bottom: 1px solid #222;
-}
-.hero-content { flex: 1; max-width: 650px; position: relative; z-index: 2; }
-.hero-avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); margin-bottom: 1.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: block; }
-.hero-desc { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; }
-.hero-card { background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(10px); padding: 3rem; border-left: 3px solid var(--accent-color); flex: 0.8; height: fit-content; position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.hero-card .card-title { color: var(--accent-color); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 1rem; text-transform: uppercase; }
-.hero-card h3 { font-size: 1.8rem; margin-bottom: 1rem; line-height: 1.3; }
-.hero-card .location { color: var(--text-secondary); font-size: 0.9rem; }
+// 3. Trigger the animation ONLY when the user scrolls to the Impact section
+const impactSection = document.querySelector('.impact');
 
-/* Market Positioning Styling */
-.market-positioning { display: flex; align-items: stretch; padding: 0; background-color: var(--surface-color); border-bottom: 1px solid #222; overflow: hidden; }
-.pos-image { flex: 1; min-height: 500px; max-width: 50%; display: flex; }
-.pos-image img { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; filter: brightness(0.8) contrast(1.1); }
-.pos-content { flex: 1; padding: 5rem; display: flex; flex-direction: column; justify-content: center; max-width: 50%; }
-.pos-content h2 { font-size: 2.8rem; line-height: 1.2; margin-top: 0.5rem; }
-.pos-desc { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.8; }
+if (impactSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Run the animation
+                animateCounters();
+                // Stop observing once it has animated so it doesn't repeat infinitely
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { 
+        threshold: 0.5 // Trigger when 50% of the section is visible on screen
+    }); 
 
-/* The Tags */
-.market-tags { display: flex; flex-wrap: wrap; gap: 1rem; }
-.market-tags .tag { color: var(--accent-color); font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; background: #000000; border: 1px solid #d4af3733; padding: 0.6rem 1.2rem; border-radius: 2px; transition: background 0.3s ease; }
-.market-tags .tag:hover { background: #d4af3711; border-color: var(--accent-color); }
-
-/* Impact Section */
-.impact { padding: 6rem 5%; background: var(--bg-color); }
-.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
-.impact-item { padding: 2rem; border-bottom: 2px solid #333; transition: border-color 0.3s; }
-.impact-item:hover { border-bottom-color: var(--accent-color); }
-.impact-item h3 { font-size: 3rem; color: var(--accent-color); margin-bottom: 0.5rem; }
-.impact-item p { color: var(--text-secondary); font-size: 0.9rem; }
-
-/* Executive Recognition Section */
-.recognition { padding: 5rem 5%; background: linear-gradient(145deg, #111 0%, #0a0a0a 100%); border-top: 1px solid #222; border-bottom: 1px solid #222; display: flex; justify-content: center; }
-.recognition-content { max-width: 800px; text-align: center; padding: 4rem 3rem; border: 1px solid #333; border-radius: 4px; background: rgba(22, 22, 22, 0.5); }
-.recognition-content h2 { font-size: 2.2rem; color: var(--accent-color); margin-bottom: 0.5rem; font-style: italic; line-height: 1.3; }
-.rec-context { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; letter-spacing: 0.5px; text-transform: uppercase; }
-.rec-desc { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2.5rem; line-height: 1.8; }
-
-/* Testimonials */
-.testimonials { padding: 5rem 5%; background: var(--bg-color); }
-.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.test-card { background: var(--surface-color); padding: 2.5rem; border-radius: 4px; border: 1px solid #222; transition: transform 0.3s ease; }
-.test-card:hover { transform: translateY(-5px); border-color: #333; }
-.quote { font-style: italic; color: var(--text-primary); margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.1rem; }
-.author { color: var(--accent-color); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
-
-/* Contact / Let's Talk Section */
-.contact { padding: 6rem 5%; background: var(--surface-color); border-top: 1px solid #222; }
-.contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1200px; margin: 0 auto; }
-.contact-info h2 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1.5rem; }
-.contact-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.6; max-width: 90%; }
-
-.contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
-.contact-box { display: flex; align-items: center; gap: 1rem; padding: 1.2rem; background: var(--bg-color); border: 1px solid #222; color: var(--text-primary); text-decoration: none; font-size: 0.9rem; border-radius: 2px; transition: border-color 0.3s; }
-.contact-box:hover { border-color: var(--accent-color); }
-.contact-box svg { color: var(--text-secondary); }
-
-.contact-form-container { background: var(--bg-color); padding: 3rem; border: 1px solid #222; border-radius: 4px; }
-.form-group { margin-bottom: 1.5rem; }
-.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: #fff; }
-.contact-form input, .contact-form textarea { width: 100%; background: var(--surface-color); border: 1px solid #333; padding: 1rem; color: #fff; font-family: var(--font-body); border-radius: 2px; transition: border-color 0.3s; }
-.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent-color); }
-.contact-form textarea { resize: vertical; min-height: 120px; }
-.btn-submit { width: 100%; background: var(--accent-color); color: #000; border: none; padding: 1rem; font-size: 1rem; font-weight: 600; font-family: var(--font-body); cursor: pointer; border-radius: 2px; transition: opacity 0.3s; margin-top: 1rem; }
-.btn-submit:hover { opacity: 0.9; }
-
-/* NEW: Social Actions below form */
-.social-actions { display: flex; justify-content: center; gap: 2rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #333; }
-.social-icon { color: var(--text-secondary); transition: color 0.3s ease, transform 0.3s ease; display: flex; align-items: center; justify-content: center; }
-.social-icon:hover { color: var(--accent-color); transform: translateY(-3px); }
-
-/* Footer */
-footer { text-align: center; padding: 2rem; background: var(--bg-color); color: var(--text-secondary); border-top: 1px solid #222; font-size: 0.8rem; }
-
-/* =========================================
-   MOBILE RESPONSIVENESS (AUTO-FIT)
-   ========================================= */
-@media (max-width: 1024px) {
-    h1 { font-size: 3.5rem; }
-    h2 { font-size: 2.2rem; }
-    .hero { padding: 6rem 5% 4rem 5%; gap: 2rem; }
-}
-
-@media (max-width: 992px) {
-    /* Nav */
-    .nav-links { display: none; }
-    .logo-text { display: none; }
-    
-    /* Hero */
-    .hero { 
-        flex-direction: column; 
-        text-align: left; 
-        padding: 5rem 5%;
-        background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)), url('hero-bg.jpg');
-    }
-    .hero-content, .hero-card { max-width: 100%; width: 100%; }
-    .hero-card { margin-top: 2rem; border-left: none; border-top: 3px solid var(--accent-color); padding: 2rem; }
-    .hero-actions { display: flex; flex-direction: column; gap: 1rem; }
-    .btn-secondary { margin-left: 0; text-align: center; }
-    .btn-primary { text-align: center; }
-
-    /* Market Positioning */
-    .market-positioning { flex-direction: column-reverse; } 
-    .pos-image, .pos-content { max-width: 100%; } 
-    .pos-content { padding: 3rem 5%; }
-    
-    /* Recognition */
-    .recognition-content { padding: 3rem 2rem; }
-    
-    /* Contact */
-    .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
-    .contact-info h2 { font-size: 2.5rem; }
-    .contact-form-container { padding: 2rem; }
-}
-
-@media (max-width: 480px) {
-    h1 { font-size: 2.8rem; }
-    h2 { font-size: 1.8rem; }
-    .hero-card h3 { font-size: 1.4rem; }
-    .impact-item h3 { font-size: 2.5rem; }
+    observer.observe(impactSection);
 }
