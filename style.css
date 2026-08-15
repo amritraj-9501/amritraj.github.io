@@ -35,7 +35,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .btn-secondary { background: rgba(0,0,0,0.5); color: var(--text-primary); border: 1px solid #555; padding: 0.8rem 1.5rem; text-decoration: none; display: inline-block; margin-left: 1rem; transition: border 0.3s; backdrop-filter: blur(5px); }
 .btn-secondary:hover { border-color: var(--accent-color); }
 .btn-outline { border: 1px solid #333; color: var(--text-primary); padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; transition: all 0.3s; }
-.btn-outline:hover { border-color: var(--accent-color); }
+.btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
 /* Modern Split Hero Section */
 .hero { 
@@ -98,13 +98,18 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .rec-context { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; letter-spacing: 0.5px; text-transform: uppercase; }
 .rec-desc { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2.5rem; line-height: 1.8; }
 
-/* Testimonials */
+/* Testimonials & Links */
 .testimonials { padding: 5rem 5%; background: var(--bg-color); }
-.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.test-card { background: var(--surface-color); padding: 2.5rem; border-radius: 4px; border: 1px solid #222; transition: transform 0.3s ease; }
-.test-card:hover { transform: translateY(-5px); border-color: #333; }
+.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+
+/* NEW: Link Wrapper for Testimonials */
+.test-link-wrapper { text-decoration: none; display: block; color: inherit; outline: none; }
+.test-link-wrapper:hover .test-card { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.05); }
+
+.test-card { background: var(--surface-color); padding: 2.5rem; border-radius: 4px; border: 1px solid #222; transition: all 0.3s ease; height: 100%; cursor: pointer; }
 .quote { font-style: italic; color: var(--text-primary); margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.1rem; }
 .author { color: var(--accent-color); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.testimonials-action { text-align: center; margin-top: 2rem; }
 
 /* Contact / Let's Talk Section */
 .contact { padding: 6rem 5%; background: var(--surface-color); border-top: 1px solid #222; }
@@ -126,7 +131,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .btn-submit { width: 100%; background: var(--accent-color); color: #000; border: none; padding: 1rem; font-size: 1rem; font-weight: 600; font-family: var(--font-body); cursor: pointer; border-radius: 2px; transition: opacity 0.3s; margin-top: 1rem; }
 .btn-submit:hover { opacity: 0.9; }
 
-/* NEW: Social Actions below form */
+/* Social Actions below form */
 .social-actions { display: flex; justify-content: center; gap: 2rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #333; }
 .social-icon { color: var(--text-secondary); transition: color 0.3s ease, transform 0.3s ease; display: flex; align-items: center; justify-content: center; }
 .social-icon:hover { color: var(--accent-color); transform: translateY(-3px); }
